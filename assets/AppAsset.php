@@ -17,22 +17,14 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/themes/default';
 
     public $css = [
-        'css/AdminLTE.min.css',
-        'css/site.css',
-    ];
-
-    public $js = [
-        'js/login.js',
+        'css/main.css',
     ];
 
     public $depends = [
         \yii\web\YiiAsset::class,
         \yii\bootstrap\BootstrapAsset::class,
-        IoniconAsset::class,
-        iCheckAsset::class,
     ];
 }

@@ -1,0 +1,47 @@
+{{ register_asset_bundle('app/assets/AppAsset') }}
+
+{{ void(this.beginPage()) }}
+<!DOCTYPE html>
+<html lang="{{ app.language }}">
+<head>
+    <meta charset="{{ app.charset }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ html.encode(this.title) }}</title>
+    {{ html.csrfMetaTags | raw }}
+    {{ void(this.head) }}
+</head>
+<body>
+{{ void(this.beginBody()) }}
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            {{ Menu.widget({
+                'items': [
+                    {'label': 'Home', 'url': ['/page/default/index']},
+                    {'label': 'About', 'url': ['/page/default/about']},
+                    {'label': 'Contacts', 'url': ['/page/default/contacts']}
+                ],
+                'options': {
+                    'class': 'nav nav-pills pull-right'
+                },
+                'itemOptions': {
+                    'role': 'presentation'
+                }
+            }) | raw }}
+            {#<ul class="nav nav-pills pull-right">#}
+            {#<li role="presentation" class="active"><a href="/">Home</a></li>#}
+            {#<li role="presentation"><a href="/about">About</a></li>#}
+            {#<li role="presentation"><a href="/contact">Contact</a></li>#}
+            {#</ul>#}
+        </nav>
+        <h3 class="text-muted">{{ app.params['brand_name']['full'] }}</h3>
+    </div>
+    {{ content | raw }}
+    <footer class="footer">
+        <p>&copy; {{ "now"|date('Y') }} {{ app.params['brand_name']['full'] }}</p>
+    </footer>
+</div>
+{{ void(this.endBody()) }}
+</body>
+</html>
+{{ void(this.endPage()) }}

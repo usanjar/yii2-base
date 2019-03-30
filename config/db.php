@@ -2,7 +2,7 @@
 
 return [
     'class' => yii\db\Connection::class,
-    'dsn' => 'pgsql:host=127.0.0.1;port=5432;dbname=runsize',
+    'dsn' => 'pgsql:host=127.0.0.1;port=5432;dbname=yii2_base',
     'username' => 'sanjar',
     'password' => 'password',
     'charset' => 'utf8',

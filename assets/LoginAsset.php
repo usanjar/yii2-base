@@ -15,8 +15,7 @@ class LoginAsset extends AssetBundle
     public $sourcePath = '@app/themes/default';
 
     public $css = [
-        'css/AdminLTE.min.css',
-        'css/site.css',
+        'css/login.css',
     ];
 
     public $js = [
@@ -27,5 +26,6 @@ class LoginAsset extends AssetBundle
         \yii\web\YiiAsset::class,
         \yii\bootstrap\BootstrapAsset::class,
         IoniconAsset::class,
+        AdminLteAsset::class,
     ];
 }

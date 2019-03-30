@@ -9,8 +9,8 @@ $config = [
     'bootstrap'      => ['log'],
     'language'       => 'ru-RU',
     'sourceLanguage' => 'ru-RU',
-    'layout'         => '@app/themes/main.twig',
-    'defaultRoute'   => '/user/security/login',
+    'layout'         => '@app/themes/default/main.twig',
+    'defaultRoute'   => '/page/default/index',
     'aliases'        => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -53,6 +53,9 @@ $config = [
                 'login'    => '/user/security/login',
                 'forgot'   => 'user/recovery/request',
                 'register' => 'user/registration/register',
+                '/'        => '/page/default/index',
+                'about'    => '/page/default/about',
+                'contacts' => '/page/default/contacts',
             ],
             'ignoreLanguageUrlPatterns'    => [
                 '#^translatemanager#' => '#^translatemanager#',
@@ -88,7 +91,9 @@ $config = [
                 'basePath' => '@app/themes/default',
                 'baseUrl'  => '@web/themes/default',
                 'pathMap'  => [
-                    '@dektrium/user/views' => '@app/themes/admin/user',
+                    '@dektrium/user/views'             => '@app/themes/admin/user',
+                    '@app/modules/admin/views/default' => '@app/themes/admin/default',
+                    '@app/modules/page/views/default'  => '@app/themes/default',
                 ],
             ],
             'renderers' => [
@@ -99,8 +104,9 @@ $config = [
                         'auto_reload' => true,
                     ],
                     'globals'   => [
-                        'html' => ['class' => \yii\helpers\Html::class],
+                        'Html' => ['class' => \yii\helpers\Html::class],
                         'Url'  => ['class' => \yii\helpers\Url::class],
+                        'Menu' => ['class' => \yii\widgets\Menu::class],
                     ],
                     'uses'      => ['yii\bootstrap'],
                 ],
@@ -109,23 +115,29 @@ $config = [
     ],
     'params'         => $params,
     'modules'        => [
-        'user'             => [
-            'class'         => dektrium\user\Module::class,
-            'controllerMap' => [
-                'security'     => app\modules\user\controllers\SecurityController::class,
-                'registration' => \app\modules\user\controllers\RegistrationController::class,
-                'recovery'     => \app\modules\user\controllers\RecoveryController::class,
-            ],
-            'urlRules'      => [
-
-            ],
+        'admin'            => [
+            'class' => app\modules\admin\Module::class,
         ],
+        'page'             => app\modules\page\Module::class,
         'rbac'             => dektrium\rbac\RbacWebModule::class,
         'translatemanager' => [
             'class'             => lajax\translatemanager\Module::class,
             'root'              => '@app/views',
             'ignoredCategories' => ['yii'],
             'phpTranslators'    => ['::t'],
+        ],
+        'user'             => [
+            'class'              => dektrium\user\Module::class,
+            'enableConfirmation' => false,
+            'admins'             => ['admin'],
+            'controllerMap'      => [
+                'security'     => app\modules\user\controllers\SecurityController::class,
+                'registration' => \app\modules\user\controllers\RegistrationController::class,
+                'recovery'     => \app\modules\user\controllers\RecoveryController::class,
+            ],
+            'urlRules'           => [
+
+            ],
         ],
     ],
 ];
