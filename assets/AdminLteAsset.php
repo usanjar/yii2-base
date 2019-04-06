@@ -8,19 +8,27 @@
 
 namespace app\assets;
 
+use yii\bootstrap\BootstrapPluginAsset;
 use yii\web\AssetBundle;
+use yii\web\YiiAsset;
 
 class AdminLteAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@app/themes/admin/assets';
 
     public $css = [
-        'css/AdminLTE.min.css'
+        'css/AdminLTE.min.css',
+        'css/skin-blue.min.css',
+    ];
+
+    public $js = [
+        'js/adminlte.min.js'
     ];
 
     public $depends = [
-        \yii\web\YiiAsset::class,
-        \yii\bootstrap\BootstrapAsset::class,
+        YiiAsset::class,
+        BootstrapPluginAsset::class,
+        FontAwesomeAsset::class,
+        SlimScrollAsset::class,
     ];
 }

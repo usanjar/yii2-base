@@ -12,7 +12,7 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'app\modules\page\controllers';
 
-    public $layout = '@app/themes/default/main.twig';
+    public $layout = '@app/themes/default/layouts/main.twig';
 
     /**
      * {@inheritdoc}

@@ -19,7 +19,9 @@
                 'items': [
                     {'label': 'Home', 'url': ['/page/default/index']},
                     {'label': 'About', 'url': ['/page/default/about']},
-                    {'label': 'Contacts', 'url': ['/page/default/contacts']}
+                    {'label': 'Contacts', 'url': ['/page/default/contacts']},
+                    {'label': 'Login', 'url': ['/user/security/login'], 'visible': app.user.isGuest},
+                    {'label': 'Admin panel', 'url': ['/admin/default/dashboard'], 'visible': not app.user.isGuest}
                 ],
                 'options': {
                     'class': 'nav nav-pills pull-right'

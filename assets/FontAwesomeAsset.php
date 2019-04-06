@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: sanjar
- * Date: 2019-03-10
- * Time: 15:12
+ * Date: 2019-03-30
+ * Time: 23:51
  */
 
 namespace app\assets;
@@ -12,22 +12,16 @@ use yii\bootstrap\BootstrapAsset;
 use yii\web\AssetBundle;
 use yii\web\YiiAsset;
 
-class LoginAsset extends AssetBundle
+class FontAwesomeAsset extends AssetBundle
 {
-    public $sourcePath = '@app/themes/default';
+    public $sourcePath = '@app/themes/admin/assets';
 
     public $css = [
-        'css/login.css',
-    ];
-
-    public $js = [
-        'js/login.js',
+        'css/font-awesome.min.css',
     ];
 
     public $depends = [
         YiiAsset::class,
         BootstrapAsset::class,
-        IoniconAsset::class,
-        AdminLteAsset::class,
     ];
 }

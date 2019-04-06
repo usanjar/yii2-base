@@ -12,7 +12,7 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'app\modules\admin\controllers';
 
-    public $layout = '@app/themes/admin.php';
+    public $layout = '@app/themes/admin/layouts/admin.php';
 
     /**
      * {@inheritdoc}

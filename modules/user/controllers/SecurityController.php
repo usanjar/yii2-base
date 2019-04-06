@@ -12,5 +12,5 @@ use dektrium\user\controllers\SecurityController as BaseSecurityController;
 
 class SecurityController extends BaseSecurityController
 {
-    public $layout = '@app/themes/login.twig';
+    public $layout = '@app/themes/default/layouts/login.twig';
 }

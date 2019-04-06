@@ -12,5 +12,5 @@ use dektrium\user\controllers\RecoveryController as BaseRecoveryController;
 
 class RecoveryController extends BaseRecoveryController
 {
-    public $layout = '@app/themes/login.twig';
+    public $layout = '@app/themes/default/layouts/login.twig';
 }

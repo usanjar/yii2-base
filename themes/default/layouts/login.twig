@@ -1,4 +1,4 @@
-{{ register_asset_bundle('app/assets/AppAsset') }}
+{{ register_asset_bundle('app/assets/LoginAsset') }}
 
 {{   void(this.beginPage()) }}
 <!DOCTYPE html>
@@ -10,9 +10,9 @@
     {{ html.csrfMetaTags | raw }}
     {{   void(this.head) }}
 </head>
-<body>
+<body class="hold-transition login-page">
 {{   void(this.beginBody()) }}
-main body
+
 {{ content | raw}}
 
 {{   void(this.endBody()) }}

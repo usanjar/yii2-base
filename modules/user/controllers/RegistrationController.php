@@ -12,5 +12,5 @@ use dektrium\user\controllers\RegistrationController as BaseRegistrationControll
 
 class RegistrationController extends BaseRegistrationController
 {
-    public $layout = '@app/themes/login.twig';
+    public $layout = '@app/themes/default/layouts/login.twig';
 }
