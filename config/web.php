@@ -1,5 +1,15 @@
 <?php
 
+use app\components\User;
+use app\modules\user\controllers\RecoveryController;
+use app\modules\user\controllers\RegistrationController;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\i18n\DbMessageSource;
+use yii\twig\ViewRenderer;
+use yii\web\View;
+use yii\widgets\Menu;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -16,6 +26,10 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components'     => [
+        'user' => [
+            'class' => User::class,
+            'identityClass' => \dektrium\user\models\User::class,
+        ],
         'request'      => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'OL5z8YVsI-aBAkTkbilk3JEtgbTeZmqy',
@@ -66,7 +80,7 @@ $config = [
         'i18n'         => [
             'translations' => [
                 '*'   => [
-                    'class'              => \yii\i18n\DbMessageSource::class,
+                    'class'              => DbMessageSource::class,
                     'db'                 => 'db',
                     'sourceLanguage'     => 'ru-RU',
                     'sourceMessageTable' => '{{%language_source}}',
@@ -75,7 +89,7 @@ $config = [
                     'enableCaching'      => true,
                 ],
                 'app' => [
-                    'class'              => \yii\i18n\DbMessageSource::class,
+                    'class'              => DbMessageSource::class,
                     'db'                 => 'db',
                     'sourceLanguage'     => 'ru-RU',
                     'sourceMessageTable' => '{{%language_source}}',
@@ -86,7 +100,7 @@ $config = [
             ],
         ],
         'view'         => [
-            'class'     => \yii\web\View::class,
+            'class'     => View::class,
             'theme'     => [
                 'basePath' => '@app/themes/default',
                 'baseUrl'  => '@web/themes/default',
@@ -98,15 +112,15 @@ $config = [
             ],
             'renderers' => [
                 'twig' => [
-                    'class'     => \yii\twig\ViewRenderer::class,
+                    'class'     => ViewRenderer::class,
                     'cachePath' => '@runtime/Twig/cache',
                     'options'   => [
                         'auto_reload' => true,
                     ],
                     'globals'   => [
-                        'Html' => ['class' => \yii\helpers\Html::class],
-                        'Url'  => ['class' => \yii\helpers\Url::class],
-                        'Menu' => ['class' => \yii\widgets\Menu::class],
+                        'Html' => ['class' => Html::class],
+                        'Url'  => ['class' => Url::class],
+                        'Menu' => ['class' => Menu::class],
                     ],
                     'uses'      => ['yii\bootstrap'],
                 ],
@@ -132,8 +146,14 @@ $config = [
             'admins'             => ['admin'],
             'controllerMap'      => [
                 'security'     => app\modules\user\controllers\SecurityController::class,
-                'registration' => \app\modules\user\controllers\RegistrationController::class,
-                'recovery'     => \app\modules\user\controllers\RecoveryController::class,
+                'registration' => [
+                    'class' => RegistrationController::class,
+                    'on ' . \dektrium\user\controllers\RegistrationController::EVENT_AFTER_REGISTER => static function () {
+                        Yii::$app->controller->redirect(['/user/security/login']);
+                        Yii::$app->end();
+                    },
+                ],
+                'recovery'     => RecoveryController::class,
             ],
             'urlRules'           => [
 

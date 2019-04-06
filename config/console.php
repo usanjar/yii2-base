@@ -1,5 +1,8 @@
 <?php
 
+use dektrium\user\Module;
+use yii\console\controllers\MigrateController;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -33,7 +36,7 @@ $config = [
                        'class' => yii\faker\FixtureController::class,
         ],
         'migrate' => [
-            'class'         => \yii\console\controllers\MigrateController::class,
+            'class'         => MigrateController::class,
             'migrationPath' => [
                 '@app/migrations',
                 '@vendor/dektrium/yii2-user/migrations',
@@ -44,6 +47,7 @@ $config = [
     ],
     'modules'             => [
         'rbac' => dektrium\rbac\RbacConsoleModule::class,
+        'user' => Module::class,
     ],
 ];
 
