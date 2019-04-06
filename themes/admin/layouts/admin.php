@@ -3,6 +3,8 @@
 use yii\web\View;
 use yii\helpers\Html;
 use app\assets\AdminLteAsset;
+use yii\widgets\Breadcrumbs;
+use yii\widgets\Menu;
 
 /* @var $this View */
 /* @var $content string */
@@ -25,12 +27,14 @@ AdminLteAsset::register($this);
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="/" class="logo">
-                <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"><b>A</b>P</span>
-                <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Admin</b>Panel</span>
-            </a>
+            <?= Html::a(
+                '<!-- mini logo for sidebar mini 50x50 pixels -->
+                        <span class="logo-mini"><b>A</b>P</span>
+                        <!-- logo for regular state and mobile devices -->
+                        <span class="logo-lg"><b>Admin</b>Panel</span>',
+                ['/admin/default/dashboard'],
+                ['class' => 'logo']
+            ) ?>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
                 <!-- Sidebar toggle button-->
@@ -45,13 +49,15 @@ AdminLteAsset::register($this);
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="<?= Yii::$app->user->identity->profile->getAvatarUrl(160) ?>" class="user-image" alt="User Image">
+                                <img src="<?= Yii::$app->user->identity->profile->getAvatarUrl(160) ?>"
+                                     class="user-image" alt="User Image">
                                 <span class="hidden-xs">Alexander Pierce</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="<?= Yii::$app->user->identity->profile->getAvatarUrl(160) ?>" class="img-circle" alt="User Image">
+                                    <img src="<?= Yii::$app->user->identity->profile->getAvatarUrl(160) ?>"
+                                         class="img-circle" alt="User Image">
 
                                     <p>
                                         Alexander Pierce - Web Developer
@@ -98,7 +104,8 @@ AdminLteAsset::register($this);
                 <!-- Sidebar user panel -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="<?= Yii::$app->user->identity->profile->getAvatarUrl(160) ?>" class="img-circle" alt="User Image">
+                        <img src="<?= Yii::$app->user->identity->profile->getAvatarUrl(160) ?>" class="img-circle"
+                             alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p>Alexander Pierce</p>
@@ -106,10 +113,29 @@ AdminLteAsset::register($this);
                     </div>
                 </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->
-                <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
-                    <li><a href="/translatemanager"><i class="fa fa-language"></i> <span>Translate manager</span></a></li>
-                </ul>
+                <?php try {
+                    echo Menu::widget([
+                        'items'        => [
+                            [
+                                'label'   => Yii::t('app', 'MAIN NAVIGATION'),
+                                'options' => ['class' => 'header'],
+                            ],
+                            [
+                                'label' => '<i class="fa fa-language"></i> <span>' . Yii::t('app', 'Translate manager') . '</span>',
+                                'url'   => ['/admin/translate/language/list'],
+                            ],
+                        ],
+                        'options'      => [
+                            'class' => 'sidebar-menu',
+                            'data'  => [
+                                'widget' => 'tree',
+                            ],
+                        ],
+                        'encodeLabels' => false,
+                    ]);
+                } catch (\Throwable $e) {
+                    echo $e->getMessage();
+                } ?>
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -118,9 +144,35 @@ AdminLteAsset::register($this);
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <?= $content ?>
-            <!-- /.content -->
+            <section class="content-header">
+                <h1>
+                    <?= $this->params['main_title'] ?? '' ?>
+                    <small><?= $this->params['small_title'] ?? '' ?></small>
+                </h1>
+                <?php try {
+                    echo Breadcrumbs::widget([
+                        'itemTemplate' => "<li>{link}</li>\n",
+                        'homeLink'     => [
+                            'label' => '<i class="fa fa-dashboard"></i> ' . Yii::t('app', 'Dashboard'),
+                            'url'   => ['/admin/default/dashboard'],
+                        ],
+                        'encodeLabels' => false,
+                        'options'      => [
+                            'class' => 'breadcrumb',
+                        ],
+                        'links'        => $this->params['breadcrumbs'] ?? [],
+                    ]);
+                } catch (\Throwable $e) {
+                    echo $e->getMessage();
+                } ?>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Content Header (Page header) -->
+                <?= $content ?>
+                <!-- /.content -->
+            </section>
+
         </div>
         <!-- /.content-wrapper -->
 

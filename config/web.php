@@ -1,8 +1,10 @@
 <?php
 
 use app\components\User;
-use app\modules\user\controllers\RecoveryController;
-use app\modules\user\controllers\RegistrationController;
+use dektrium\user\controllers\RecoveryController;
+use dektrium\user\controllers\RegistrationController;
+use dektrium\user\controllers\SecurityController;
+use kartik\grid\Module;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\i18n\DbMessageSource;
@@ -26,8 +28,8 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components'     => [
-        'user' => [
-            'class' => User::class,
+        'user'         => [
+            'class'         => User::class,
             'identityClass' => \dektrium\user\models\User::class,
         ],
         'request'      => [
@@ -59,22 +61,26 @@ $config = [
         ],
         'db'           => $db,
         'urlManager'   => [
-            'class'                        => codemix\localeurls\UrlManager::class,
-            'languages'                    => ['en' => 'en-US', 'ru' => 'ru-RU', 'uz' => 'uz-UZ'],
-            'showScriptName'               => false,
+            'class'          => codemix\localeurls\UrlManager::class,
+            'languages'      => ['en' => 'en-US', 'ru' => 'ru-RU', 'uz' => 'uz-UZ'],
+            'showScriptName' => false,
+
             'enableDefaultLanguageUrlCode' => true,
-            'rules'                        => [
-                'login'    => '/user/security/login',
-                'forgot'   => 'user/recovery/request',
-                'register' => 'user/registration/register',
-                '/'        => '/page/default/index',
-                'about'    => '/page/default/about',
-                'contacts' => '/page/default/contacts',
+
+            'rules' => [
+                'login'            => '/user/security/login',
+                'forgot'           => 'user/recovery/request',
+                'register'         => 'user/registration/register',
+                '/'                => '/page/default/index',
+                'about'            => '/page/default/about',
+                'contacts'         => '/page/default/contacts',
             ],
-            'ignoreLanguageUrlPatterns'    => [
+
+            'ignoreLanguageUrlPatterns' => [
                 '#^translatemanager#' => '#^translatemanager#',
                 '#^[css|js]#'         => '#^[css|js]#',
                 '#^images#'           => '#^images#',
+                '#^admin#'            => '#^admin#',
             ],
         ],
         'i18n'         => [
@@ -99,7 +105,8 @@ $config = [
                 ],
             ],
         ],
-        'view'         => [
+
+        'view' => [
             'class'     => View::class,
             'theme'     => [
                 'basePath' => '@app/themes/default',
@@ -108,6 +115,7 @@ $config = [
                     '@dektrium/user/views'             => '@app/themes/admin/user',
                     '@app/modules/admin/views/default' => '@app/themes/admin/default',
                     '@app/modules/page/views/default'  => '@app/themes/default',
+                    '@lajax/translatemanager/views'    => '@app/themes/admin/translate_manager',
                 ],
             ],
             'renderers' => [
@@ -128,37 +136,53 @@ $config = [
         ],
     ],
     'params'         => $params,
-    'modules'        => [
-        'admin'            => [
+
+    'modules' => [
+
+        'admin' => [
             'class' => app\modules\admin\Module::class,
         ],
-        'page'             => app\modules\page\Module::class,
-        'rbac'             => dektrium\rbac\RbacWebModule::class,
+
+        'page' => app\modules\page\Module::class,
+        'rbac' => dektrium\rbac\RbacWebModule::class,
+
         'translatemanager' => [
             'class'             => lajax\translatemanager\Module::class,
             'root'              => '@app/views',
             'ignoredCategories' => ['yii'],
             'phpTranslators'    => ['::t'],
         ],
-        'user'             => [
+
+        'user' => [
             'class'              => dektrium\user\Module::class,
             'enableConfirmation' => false,
             'admins'             => ['admin'],
             'controllerMap'      => [
-                'security'     => app\modules\user\controllers\SecurityController::class,
+                'security' => [
+                    'class'  => SecurityController::class,
+                    'layout' => '@app/themes/default/layouts/login.twig',
+                ],
+
                 'registration' => [
-                    'class' => RegistrationController::class,
-                    'on ' . \dektrium\user\controllers\RegistrationController::EVENT_AFTER_REGISTER => static function () {
+                    'class'  => RegistrationController::class,
+                    'layout' => '@app/themes/default/layouts/login.twig',
+
+                    'on ' . RegistrationController::EVENT_AFTER_REGISTER => static function () {
                         Yii::$app->controller->redirect(['/user/security/login']);
                         Yii::$app->end();
                     },
                 ],
-                'recovery'     => RecoveryController::class,
-            ],
-            'urlRules'           => [
 
+                'recovery' => [
+                    'class'  => RecoveryController::class,
+                    'layout' => '@app/themes/default/layouts/login.twig',
+                ],
             ],
+
+            'urlRules' => [],
         ],
+
+        'gridview' => Module::class,
     ],
 ];
 

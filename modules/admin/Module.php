@@ -2,6 +2,8 @@
 
 namespace app\modules\admin;
 
+use yii\filters\AccessControl;
+
 /**
  * admin module definition class
  */
@@ -14,13 +16,33 @@ class Module extends \yii\base\Module
 
     public $layout = '@app/themes/admin/layouts/admin.php';
 
+    public function behaviors(): array
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@']
+                    ]
+                ],
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
-        // custom initialization code goes here
+        $this->modules = [
+            'translate' => [
+                'class'  => \lajax\translatemanager\Module::class,
+                'layout' => '@app/themes/admin/layouts/admin.php',
+            ],
+        ];
     }
 }
