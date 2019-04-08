@@ -46,6 +46,9 @@ AdminLteAsset::register($this);
                 </a>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/"><i class="fa fa-globe"></i></a>
+                        </li>
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -123,6 +126,10 @@ AdminLteAsset::register($this);
                             [
                                 'label' => '<i class="fa fa-language"></i> <span>' . Yii::t('app', 'Translate manager') . '</span>',
                                 'url'   => ['/admin/translate/language/list'],
+                            ],
+                            [
+                                'label' => '<i class="fa fa-users"></i> <span>' . Yii::t('app', 'Users') . '</span>',
+                                'url'   => ['/admin/user/admin/index'],
                             ],
                         ],
                         'options'      => [

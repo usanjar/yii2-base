@@ -113,6 +113,7 @@ $config = [
                 'baseUrl'  => '@web/themes/default',
                 'pathMap'  => [
                     '@dektrium/user/views'             => '@app/themes/admin/user',
+                    '@dektrium/rbac/views'             => '@app/themes/admin/user',
                     '@app/modules/admin/views/default' => '@app/themes/admin/default',
                     '@app/modules/page/views/default'  => '@app/themes/default',
                     '@lajax/translatemanager/views'    => '@app/themes/admin/translate_manager',

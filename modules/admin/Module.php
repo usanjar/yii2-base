@@ -2,6 +2,7 @@
 
 namespace app\modules\admin;
 
+use dektrium\rbac\RbacWebModule;
 use yii\filters\AccessControl;
 
 /**
@@ -24,8 +25,8 @@ class Module extends \yii\base\Module
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@']
-                    ]
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -43,6 +44,8 @@ class Module extends \yii\base\Module
                 'class'  => \lajax\translatemanager\Module::class,
                 'layout' => '@app/themes/admin/layouts/admin.php',
             ],
+            'user'      => \dektrium\user\Module::class,
+            'rbac' => RbacWebModule::class,
         ];
     }
 }
