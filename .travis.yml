@@ -16,7 +16,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS yii2_basic_tests;'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS yii2_tests;'
 
 install:
   - travis_retry composer self-update && composer --version
